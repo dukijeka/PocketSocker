@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Pocket Socker</string>
+    <string name="loadButton">LOAD GAME</string>
+    <string name="startGameButton">START GAME</string>
+    <string name="statisticsButton">STATISTICS</string>
+    <string name="settingsButton">SETTINGS</string>
+    <string name="title_activity_game">GameActivity</string>
+</resources>
