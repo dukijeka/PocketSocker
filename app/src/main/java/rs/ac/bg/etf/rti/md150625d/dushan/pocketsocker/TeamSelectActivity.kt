@@ -2,6 +2,7 @@ package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
@@ -84,6 +85,9 @@ class TeamSelectActivity : AppCompatActivity() {
             return
         }
 
-        // TODO
+        // TODO: store player names in database
+
+        val intent = Intent(this, GameActivity::class.java)
+        startActivity(intent)
     }
 }
