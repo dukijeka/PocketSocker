@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".TeamSelectActivity" android:background="@drawable/football_field_background">
+        tools:context=".ui.TeamSelectActivity" android:background="@drawable/football_field_background">
     <TextView
             android:text="START"
             android:layout_width="wrap_content"
