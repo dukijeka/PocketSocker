@@ -1,15 +1,12 @@
 package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.controllers
 
-import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Player
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.PlayerType
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.viewModels.GameViewModel
-import android.R
-import android.support.v4.content.ContextCompat
 import android.graphics.PorterDuffColorFilter
-import android.graphics.ColorFilter
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Ball
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Goal
 
 
@@ -18,23 +15,26 @@ class RefreshThread(var model: GameViewModel, var controller: GameController)
 
     private var isRunning = true
     private var lastTime: Long? = null
+   // private var goals = LinkedList<Goal>()
 
     override fun run() {
         super.run()
         lastTime = System.currentTimeMillis()
         while (!interrupted()) {
-            val timePassedinSeconds:Double =
+            val timePassed:Double =
                 ((System.currentTimeMillis() - lastTime!!)).toDouble()
             if (isRunning) {
+                //findGoals()
+                checkForGoal()
                 markPlayersOnTurn()
-                handleCollisions()
                 // update positions for all figures
                 for (figure in model.figures) {
                     figure.x =
-                        (figure.x + figure.speedX * timePassedinSeconds/100).toInt()
+                        (figure.x + figure.speedX * timePassed/100).toInt()
                     figure.y =
-                        (figure.y + figure.speedY * timePassedinSeconds/100).toInt()
+                        (figure.y + figure.speedY * timePassed/100).toInt()
                 }
+                handleCollisions()
 
                 controller.refreshGameView()
             }
@@ -42,6 +42,24 @@ class RefreshThread(var model: GameViewModel, var controller: GameController)
             Thread.sleep(5)
         }
     }
+
+    private fun checkForGoal() {
+        if (model.ball == null) {
+            return
+        }
+
+        if (model.ball!!.x < -20 || model.ball!!.x > model.canvasWidth + 20) {
+            controller.reportGoal()
+        }
+    }
+
+//    private fun findGoals() {
+//        for (figure in model.figures) {
+//            if (figure is Goal) {
+//                goals.add(figure)
+//            }
+//        }
+//    }
 
     private fun markPlayersOnTurn() {
         val turn = controller.turn
@@ -79,19 +97,10 @@ class RefreshThread(var model: GameViewModel, var controller: GameController)
     }
 
     private fun handleCollisions() {
+        handleBorderCollisions()
         for ((i, figure) in model.figures.withIndex()) {
             if (figure is Goal) {
                 continue
-            }
-            // border collisions
-            if (figure.bounds.contains(0, figure.y)
-                || figure.bounds.contains(model.canvasWidth, figure.y)) {
-                figure.speedX = -figure.speedX
-            }
-
-            if (figure.bounds.contains(figure.x, 0)
-                || figure.bounds.contains(figure.x, model.canvasHeight)) {
-                figure.speedY = -figure.speedY
             }
 
             // football player collisions
@@ -99,6 +108,7 @@ class RefreshThread(var model: GameViewModel, var controller: GameController)
                 if (figure2 is Goal) {
                     continue
                 }
+
                 if (i < j && intersects(figure.bounds, figure2.bounds)) {
                     // change directions(speed signs) only if balls are moving towards each other
 
@@ -149,6 +159,33 @@ class RefreshThread(var model: GameViewModel, var controller: GameController)
 
 
                 }
+            }
+        }
+    }
+
+    private fun handleBorderCollisions() {
+        for (figure in model.figures) {
+            if (figure is Goal) {
+                continue
+            }
+
+            if (figure is Ball &&
+                figure.y >= model.canvasHeight / 2 - model.GOAL_HEIGHT / 2
+                && figure.y + model.BALL_SIZE <= model.canvasHeight / 2
+                - model.GOAL_HEIGHT / 2 + model.GOAL_HEIGHT && Math.abs(figure.speedX) > 10) {
+                    continue
+
+            }
+
+            // border collisions
+            if (figure.bounds.contains(0, figure.y)
+                || figure.bounds.contains(model.canvasWidth, figure.y)) {
+                figure.speedX = -figure.speedX
+            }
+
+            if (figure.bounds.contains(figure.x, 0)
+                || figure.bounds.contains(figure.x, model.canvasHeight)) {
+                figure.speedY = -figure.speedY
             }
         }
     }

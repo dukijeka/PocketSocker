@@ -1,18 +1,26 @@
 package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.controllers
 
 import android.graphics.Rect
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_game.*
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.GameImageView
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Ball
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Goal
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Player
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.PlayerType
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.ui.GameActivity
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.viewModels.GameViewModel
 import java.util.concurrent.CopyOnWriteArrayList
 
-class GameController(private val model: GameViewModel,
-                     private val gameImageView: GameImageView) {
 
+
+
+class GameController(private val model: GameViewModel,
+                     private val gameImageView: GameImageView, var activity: GameActivity) {
+
+    @get: Synchronized @set: Synchronized
     var turn: Turn = Turn.PLAYER1 // default
+
     private var state: State = State.SELECTION
 
     init {
@@ -21,6 +29,9 @@ class GameController(private val model: GameViewModel,
 
         // start refreshThread
         RefreshThread(model, this).start()
+
+        // start timer
+        GameTimer(this, model).start()
     }
 
     fun sizeChanged() {
@@ -78,10 +89,13 @@ class GameController(private val model: GameViewModel,
         // add ball
         val ball = Ball(model, model.canvasWidth / 2 - model.BALL_SIZE / 2,
             model.canvasHeight / 2 - model.BALL_SIZE / 2)
+        model.ball = ball
         model.figures.add(ball)
 
         addGoals()
 
+        updateScore()
+        updateTime()
     }
 
     fun addGoals() {
@@ -137,6 +151,11 @@ class GameController(private val model: GameViewModel,
         state = State.SELECTION
 
 
+        switchPlayers()
+        model.timeLeftToMove = model.timePerMove
+    }
+
+    fun switchPlayers() {
         turn = if (turn == Turn.PLAYER1) {
             Turn.PLAYER2
         } else {
@@ -146,5 +165,43 @@ class GameController(private val model: GameViewModel,
 
     fun refreshGameView() {
         gameImageView.invalidate()
+    }
+
+    fun reportGoal() {
+        activity.runOnUiThread {
+            Toast.makeText(activity, "Goal", Toast.LENGTH_SHORT).show()
+        }
+
+        if (model.ball != null && model.ball!!.x <= 0) {
+            model.player2Score++
+        } else {
+            model.player1Score++
+        }
+
+        placeFigures()
+        model.timeLeftToMove = model.timePerMove
+    }
+
+    fun gameOverTimeUp() {
+
+    }
+
+    fun timeUp() {
+        switchPlayers()
+        model.timeLeftToMove = model.timePerMove
+    }
+
+    fun updateScore() {
+        activity.runOnUiThread {
+            activity.resultTextView.text =
+                "SCORE: " + model.player1Score + " - " + model.player2Score
+        }
+    }
+
+    fun updateTime() {
+        activity.runOnUiThread {
+            activity.timeTextView.text =
+                "TIME: " + model.timeLeft
+        }
     }
 }

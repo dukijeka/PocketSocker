@@ -2,16 +2,21 @@ package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.viewModels
 
 import android.arch.lifecycle.ViewModel
 import android.graphics.Bitmap
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Ball
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Figure
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Player
 import java.util.concurrent.CopyOnWriteArrayList
 
 class GameViewModel: ViewModel() {
     // constants
-    val PLAYER_SIZE = 200
-    val BALL_SIZE = 100
-    val GOAL_HEIGHT = 300
-    val GOAL_WIDTH = 50
+    @get: Synchronized @set: Synchronized
+    var PLAYER_SIZE = 200
+    @get: Synchronized @set: Synchronized
+    var BALL_SIZE = 100
+    @get: Synchronized @set: Synchronized
+    var GOAL_HEIGHT = 300
+    @get: Synchronized @set: Synchronized
+    var GOAL_WIDTH = 50
 
     @get: Synchronized @set: Synchronized
     var flags: Array<String>? = null
@@ -41,4 +46,20 @@ class GameViewModel: ViewModel() {
     @get: Synchronized @set: Synchronized
     var selectedPlayer: Player? = null
 
+    @get: Synchronized @set: Synchronized
+    var ball: Ball? = null
+
+    @get: Synchronized @set: Synchronized
+    var player1Score: Int = 0
+
+    @get: Synchronized @set: Synchronized
+    var player2Score: Int = 0
+
+    @get: Synchronized @set: Synchronized
+    var timeLeft: Int = 180
+
+    @get: Synchronized @set: Synchronized
+    var timeLeftToMove = 10
+
+    val timePerMove = 10
 }

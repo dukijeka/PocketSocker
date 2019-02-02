@@ -46,7 +46,7 @@ class GameActivity : AppCompatActivity() {
 
             model.ballBitmap = BitmapFactory.decodeResource(resources, R.drawable.soccer_ball)
 
-            controller = GameController(model, gameImageView)
+            controller = GameController(model, gameImageView, this)
         }
         gestureDetector = GestureDetectorCompat(this, GameGestureDetector(controller))
     }

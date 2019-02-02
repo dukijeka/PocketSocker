@@ -37,6 +37,11 @@ class GameImageView : AppCompatImageView {
         model!!.canvasHeight = h
         model!!.canvasWidth = w
 
+        model!!.BALL_SIZE = (h / 10.8).toInt()
+        model!!.PLAYER_SIZE = (h / 5.4).toInt()
+        model!!.GOAL_WIDTH = (h / 21.6).toInt()
+        model!!.GOAL_HEIGHT = (h / 3.6).toInt()
+
         if (w != 0 && h != 0 && oldw == 0 && oldh == 0) {
                 controller?.sizeChanged()
         }

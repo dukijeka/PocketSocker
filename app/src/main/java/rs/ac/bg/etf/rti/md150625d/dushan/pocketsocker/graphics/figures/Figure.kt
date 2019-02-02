@@ -18,12 +18,14 @@ abstract class Figure// initiate bounds
     var boundHeight: Int
 ) : ShapeDrawable() {
 
+    @get: Synchronized @set:Synchronized
     var x: Int = x
         set(value) {
             field = value
             // refresh bounds
             bounds = Rect(x, y, x + boundWidth, y + boundHeight)
         }
+    @get: Synchronized @set:Synchronized
     var y: Int = y
         set(value) {
             field = value
