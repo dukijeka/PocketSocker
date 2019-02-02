@@ -4,13 +4,14 @@ import android.arch.lifecycle.ViewModel
 import android.graphics.Bitmap
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Figure
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Player
-import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 class GameViewModel: ViewModel() {
     // constants
     val PLAYER_SIZE = 200
     val BALL_SIZE = 100
+    val GOAL_HEIGHT = 300
+    val GOAL_WIDTH = 50
 
     @get: Synchronized @set: Synchronized
     var flags: Array<String>? = null
@@ -22,6 +23,9 @@ class GameViewModel: ViewModel() {
     var player1FlagBitmap : Bitmap? = null
     @get: Synchronized @set: Synchronized
     var player2FlagBitmap : Bitmap? = null
+
+    @get: Synchronized @set: Synchronized
+    var ballBitmap : Bitmap? = null
 
     var player1Name = ""
     var player2Name = ""

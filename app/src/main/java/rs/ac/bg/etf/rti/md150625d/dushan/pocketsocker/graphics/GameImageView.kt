@@ -31,12 +31,17 @@ class GameImageView : AppCompatImageView {
         if (model == null) {
             return
         }
+
+        // TODO: explain this mess
+
         model!!.canvasHeight = h
         model!!.canvasWidth = w
 
-        if (controller != null) {
-            controller!!.sizeChanged()
+        if (w != 0 && h != 0 && oldw == 0 && oldh == 0) {
+                controller?.sizeChanged()
         }
+
+        controller?.addGoals()
 
     }
 }

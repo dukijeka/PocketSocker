@@ -1,14 +1,12 @@
 package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.controllers
 
 import android.graphics.Rect
-import android.support.v4.view.GestureDetectorCompat
-import android.view.GestureDetector
-import android.view.MotionEvent
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.GameImageView
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Ball
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Goal
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Player
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.PlayerType
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.viewModels.GameViewModel
-import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 class GameController(private val model: GameViewModel,
@@ -77,6 +75,30 @@ class GameController(private val model: GameViewModel,
             )
         model.figures.add(team2Player3)
 
+        // add ball
+        val ball = Ball(model, model.canvasWidth / 2 - model.BALL_SIZE / 2,
+            model.canvasHeight / 2 - model.BALL_SIZE / 2)
+        model.figures.add(ball)
+
+        addGoals()
+
+    }
+
+    fun addGoals() {
+        // remove all goals from figures
+        for (figure in model.figures) {
+            if (figure is Goal) {
+                model.figures.remove(figure)
+            }
+        }
+
+        // add goals
+        val goal1 = Goal(model, 0, model.canvasHeight / 2 - model.GOAL_HEIGHT / 2)
+        model.figures.add(goal1)
+
+        val goal2 = Goal(model, model.canvasWidth - model.GOAL_WIDTH,
+            model.canvasHeight / 2 - model.GOAL_HEIGHT / 2)
+        model.figures.add(goal2)
         gameImageView.invalidate()
     }
 
@@ -88,7 +110,7 @@ class GameController(private val model: GameViewModel,
         // find the touched figure
         for (figure in model.figures) {
             if (figure !is Player) {
-                return
+                continue
             }
 
             if (touch.intersect(figure.bounds)) {
@@ -110,8 +132,8 @@ class GameController(private val model: GameViewModel,
             return
         }
 
-        model.selectedPlayer!!.speedX = velocityX.toInt() / 80
-        model.selectedPlayer!!.speedY = velocityY.toInt() / 80
+        model.selectedPlayer!!.speedX = velocityX.toInt() / 50
+        model.selectedPlayer!!.speedY = velocityY.toInt() / 50
         state = State.SELECTION
 
 

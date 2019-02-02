@@ -44,6 +44,8 @@ class GameActivity : AppCompatActivity() {
                 assets.open("image_flags/" + model.flags!![model.player2FlagNumber])
             )
 
+            model.ballBitmap = BitmapFactory.decodeResource(resources, R.drawable.soccer_ball)
+
             controller = GameController(model, gameImageView)
         }
         gestureDetector = GestureDetectorCompat(this, GameGestureDetector(controller))
