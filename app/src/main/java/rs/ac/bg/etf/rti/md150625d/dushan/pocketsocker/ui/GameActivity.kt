@@ -1,6 +1,7 @@
 package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.ui
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.view.GestureDetectorCompat
@@ -11,7 +12,6 @@ import kotlinx.android.synthetic.main.activity_game.*
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.controllers.GameController
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.gestureDetection.GameGestureDetector
-import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.GameImageView
 
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.viewModels.GameViewModel
 
@@ -64,5 +64,12 @@ class GameActivity : AppCompatActivity() {
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         gestureDetector.onTouchEvent(event)
         return super.onTouchEvent(event)
+    }
+
+    fun finishGame() {
+        val intent = Intent(this, ResultsActivity::class.java)
+        // clears this activity form the Activity stack, so the user can't get back to it
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // doesn't work
+        startActivity(intent)
     }
 }

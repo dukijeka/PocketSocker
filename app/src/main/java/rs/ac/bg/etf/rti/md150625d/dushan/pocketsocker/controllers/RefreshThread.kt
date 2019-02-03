@@ -10,7 +10,7 @@ import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Ball
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Goal
 
 
-class RefreshThread(var model: GameViewModel, var controller: GameController)
+class RefreshThread(var model: GameViewModel, private var controller: GameController)
     : Thread() {
 
     private var isRunning = true
@@ -113,7 +113,7 @@ class RefreshThread(var model: GameViewModel, var controller: GameController)
                     // change directions(speed signs) only if balls are moving towards each other
 
                     // calculate distance
-                    var currentDistance: Double =
+                    val currentDistance: Double =
                         Math.sqrt(Math.pow((figure.x - figure2.x).toDouble(), 2.0)
                                 + Math.pow((figure.y - figure2.y).toDouble(), 2.0))
 
@@ -126,7 +126,7 @@ class RefreshThread(var model: GameViewModel, var controller: GameController)
                     val newY2 = (figure2.y + figure2.speedY * simulatedTime).toInt()
 
                     // calculate new distance
-                    var newDistance: Double =
+                    val newDistance: Double =
                         Math.sqrt(Math.pow((newX1 - newX2).toDouble(), 2.0)
                                 + Math.pow((newY1 - newY2).toDouble(), 2.0))
 

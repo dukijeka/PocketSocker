@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 
 class GameController(private val model: GameViewModel,
-                     private val gameImageView: GameImageView, var activity: GameActivity) {
+                     private val gameImageView: GameImageView, private var activity: GameActivity) {
 
     @get: Synchronized @set: Synchronized
     var turn: Turn = Turn.PLAYER1 // default
@@ -155,7 +155,7 @@ class GameController(private val model: GameViewModel,
         model.timeLeftToMove = model.timePerMove
     }
 
-    fun switchPlayers() {
+    private fun switchPlayers() {
         turn = if (turn == Turn.PLAYER1) {
             Turn.PLAYER2
         } else {
@@ -183,7 +183,9 @@ class GameController(private val model: GameViewModel,
     }
 
     fun gameOverTimeUp() {
-
+        activity.runOnUiThread {
+            activity.finishGame()
+        }
     }
 
     fun timeUp() {
@@ -191,17 +193,21 @@ class GameController(private val model: GameViewModel,
         model.timeLeftToMove = model.timePerMove
     }
 
-    fun updateScore() {
+    private fun updateScore() {
         activity.runOnUiThread {
-            activity.resultTextView.text =
-                "SCORE: " + model.player1Score + " - " + model.player2Score
+            val text = "SCORE: " + model.player1Score + " - " + model.player2Score
+            activity.resultTextView.text = text
+
         }
     }
 
     fun updateTime() {
         activity.runOnUiThread {
-            activity.timeTextView.text =
-                "TIME: " + model.timeLeft
+            val totalTimeLeft = "TIME: " + model.timeLeft
+            activity.timeTextView.text = totalTimeLeft
+
+            val timeLeftToMove = "" + model.timeLeftToMove
+            activity.timeLeftTextView.text = timeLeftToMove
         }
     }
 }
