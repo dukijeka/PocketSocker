@@ -1,8 +1,10 @@
 package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.controllers
 
 import android.graphics.Rect
+import android.media.MediaPlayer
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game.*
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.GameImageView
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Ball
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Goal
@@ -20,6 +22,9 @@ class GameController(private val model: GameViewModel,
 
     @get: Synchronized @set: Synchronized
     var turn: Turn = Turn.PLAYER1 // default
+
+    private var mediaPlayerKick: MediaPlayer? = MediaPlayer.create(activity, R.raw.kick)
+    private var mediaPlayerApplause: MediaPlayer? = MediaPlayer.create(activity, R.raw.applause)
 
     var refreshThread : RefreshThread? = null
     var gameTimer: GameTimer? = null
@@ -191,6 +196,8 @@ class GameController(private val model: GameViewModel,
             model.player1Score++
         }
 
+        playApplause()
+
         placeFigures()
         model.timeLeftToMove = model.timePerMove
     }
@@ -244,6 +251,17 @@ class GameController(private val model: GameViewModel,
         gameTimer = GameTimer(this, model)
         gameTimer?.start()
         refreshThread?.resumeGame()
+    }
+
+    fun playApplause() {
+
+            mediaPlayerApplause?.start()
+
+    }
+
+    fun playKick() {
+            mediaPlayerKick?.start()
+
     }
 
 

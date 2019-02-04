@@ -155,6 +155,14 @@ class RefreshThread(var model: GameViewModel, private var controller: GameContro
                         figure2.speedX = (elasticityFactor * figure2.speedX).toInt()
                         figure2.speedY = (elasticityFactor * figure2.speedY).toInt()
 
+                        // sound
+                        if ((figure is Ball && figure2 is Player)
+                            || (figure is Player && figure2 is Ball)) {
+
+                                controller.playKick()
+
+                        }
+
                     }
 
 
