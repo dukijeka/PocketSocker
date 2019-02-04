@@ -9,7 +9,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:fullBackupContent="">
+            >
         <activity android:name=".ui.ResultsActivity">
         </activity>
         <activity

@@ -5,16 +5,19 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity" android:background="@drawable/football_field_background">
-    <Button
+        tools:context=".ui.MainActivity"
+        android:background="@drawable/football_field_background">
+    <TextView
             android:text="@string/loadButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/loadGameButton"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/startGameButton"
             app:layout_constraintStart_toStartOf="@+id/startGameButton"
-            app:layout_constraintEnd_toEndOf="@+id/startGameButton"/>
-    <Button
+            app:layout_constraintEnd_toEndOf="@+id/startGameButton"
+            android:onClick="onLoadGameButtonClicked" android:fontFamily="@font/frijole" android:textSize="18sp"
+            android:textStyle="bold" android:textColor="@color/colorAccent"/>
+    <TextView
             android:text="@string/startGameButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,21 +26,25 @@
             app:layout_constraintBottom_toTopOf="@+id/statisticsButton"
             app:layout_constraintStart_toStartOf="@+id/statisticsButton"
             app:layout_constraintEnd_toEndOf="@+id/statisticsButton"
-            android:onClick="startGameButtonClicked"/>
-    <Button
+            android:onClick="startGameButtonClicked" android:fontFamily="@font/frijole" android:textSize="18sp"
+            android:textStyle="bold" android:textColor="@color/colorAccent"/>
+    <TextView
             android:text="@string/statisticsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/statisticsButton"
             app:layout_constraintTop_toBottomOf="@+id/startGameButton"
             app:layout_constraintBottom_toTopOf="@+id/settingsButton"
             app:layout_constraintStart_toStartOf="@+id/settingsButton"
-            app:layout_constraintEnd_toEndOf="@+id/settingsButton"/>
-    <Button
+            app:layout_constraintEnd_toEndOf="@+id/settingsButton" android:fontFamily="@font/frijole" android:textSize="18sp"
+            android:textStyle="bold" android:textColor="@color/colorAccent"/>
+    <TextView
             android:text="@string/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/settingsButton"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/statisticsButton"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:fontFamily="@font/frijole" android:textSize="18sp"
+            android:textStyle="bold" android:textColor="@color/colorAccent"
     />
 </android.support.constraint.ConstraintLayout>

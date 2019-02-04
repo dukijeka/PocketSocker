@@ -14,6 +14,15 @@ import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.controllers.GameController
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.gestureDetection.GameGestureDetector
 
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.viewModels.GameViewModel
+import java.io.FileOutputStream
+import android.content.Context.MODE_PRIVATE
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.PersistableBundle
+import android.preference.PreferenceManager
+import java.io.ObjectOutputStream
+import java.io.ObjectInputStream
+
 
 class GameActivity : AppCompatActivity() {
 
@@ -22,33 +31,65 @@ class GameActivity : AppCompatActivity() {
     private lateinit var gestureDetector: GestureDetectorCompat
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game)
-        model = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        setContentView(rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R.layout.activity_game)
+        //model = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        model = GameViewModel()
         model.flags = assets.list("image_flags")
 
+
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+
         if (intent != null) { // intent shouldn't be null here
-            model.player1FlagNumber = intent.getIntExtra("player1FlagNumber",
-                0)
-            model.player2FlagNumber = intent.getIntExtra("player2FlagNumber",
-                0)
-            model.player1Name = intent.getStringExtra("player1Name")
-            model.player2Name = intent.getStringExtra("player2Name")
+            if (sharedPreferences.contains(getString(R.string.preference_file_key))) {
+                // load model from file
+                val fis = this.openFileInput("storedGame.obj")
+                val inStream = ObjectInputStream(fis)
+                model = inStream.readObject() as GameViewModel
+                inStream.close()
+                fis.close()
 
-            model.player1FlagBitmap = BitmapFactory.decodeStream(
-                assets.open("image_flags/" + model.flags!![model.player1FlagNumber])
-            )
+                // restore non-serializable objects
+                model.player1FlagBitmap = BitmapFactory.decodeStream(
+                    assets.open("image_flags/" + model.flags!![model.player1FlagNumber])
+                )
+                model.player2FlagBitmap = BitmapFactory.decodeStream(
+                    assets.open("image_flags/" + model.flags!![model.player2FlagNumber])
+                )
 
-            model.player2FlagBitmap = BitmapFactory.decodeStream(
-                assets.open("image_flags/" + model.flags!![model.player2FlagNumber])
-            )
+                model.ballBitmap = BitmapFactory.decodeResource(resources, rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R.drawable.soccer_ball)
+                model.loadedModel = true
 
-            model.ballBitmap = BitmapFactory.decodeResource(resources, R.drawable.soccer_ball)
+            } else {
+                initializeModel()
+            }
 
             controller = GameController(model, gameImageView, this)
         }
         gestureDetector = GestureDetectorCompat(this, GameGestureDetector(controller))
+    }
+
+    private fun initializeModel() {
+        model.player1FlagNumber = intent.getIntExtra("player1FlagNumber",
+            0)
+        model.player2FlagNumber = intent.getIntExtra("player2FlagNumber",
+            0)
+        model.player1Name = intent.getStringExtra("player1Name")
+        model.player2Name = intent.getStringExtra("player2Name")
+
+        model.player1FlagBitmap = BitmapFactory.decodeStream(
+            assets.open("image_flags/" + model.flags!![model.player1FlagNumber])
+        )
+
+        model.player2FlagBitmap = BitmapFactory.decodeStream(
+            assets.open("image_flags/" + model.flags!![model.player2FlagNumber])
+        )
+
+        model.ballBitmap = BitmapFactory.decodeResource(resources, rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R.drawable.soccer_ball)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -57,8 +98,13 @@ class GameActivity : AppCompatActivity() {
         if (hasFocus) {
             window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_IMMERSIVE_STICKY or SYSTEM_UI_FLAG_FULLSCREEN or
                     SYSTEM_UI_FLAG_HIDE_NAVIGATION
-
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        controller.pauseGame()
+        saveGame()
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -71,5 +117,45 @@ class GameActivity : AppCompatActivity() {
         // clears this activity form the Activity stack, so the user can't get back to it
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // doesn't work
         startActivity(intent)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        controller.pauseGame()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        controller.resumeGame()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        controller.pauseGame()
+        saveGame()
+
+    }
+
+    private fun saveGame() {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+
+        // remove non-serializable objects from model
+        model.player1FlagBitmap = null
+        model.player2FlagBitmap = null
+        model.ballBitmap = null
+
+        // write model to file
+        val fos = this.openFileOutput("storedGame.obj", Context.MODE_PRIVATE)
+        val os = ObjectOutputStream(fos)
+        os.writeObject(model)
+        os.close()
+        fos.close()
+
+
+        with(sharedPreferences.edit()) {
+            putBoolean(getString(R.string.preference_file_key), true)
+            commit()
+        }
     }
 }

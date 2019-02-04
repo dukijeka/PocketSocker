@@ -21,6 +21,9 @@ class GameController(private val model: GameViewModel,
     @get: Synchronized @set: Synchronized
     var turn: Turn = Turn.PLAYER1 // default
 
+    var refreshThread : RefreshThread? = null
+    var gameTimer: GameTimer? = null
+
     private var state: State = State.SELECTION
 
     init {
@@ -28,10 +31,14 @@ class GameController(private val model: GameViewModel,
         gameImageView.model = model
 
         // start refreshThread
-        RefreshThread(model, this).start()
+        refreshThread = RefreshThread(model, this)
+
+        refreshThread?.start()
 
         // start timer
-        GameTimer(this, model).start()
+        gameTimer = GameTimer(this, model)
+
+        gameTimer?.start()
     }
 
     fun sizeChanged() {
@@ -39,6 +46,12 @@ class GameController(private val model: GameViewModel,
     }
 
     private fun placeFigures() {
+        //don't reset figures if we're loading saved game
+        if (model.loadedModel) {
+            model.loadedModel = false
+            updateScore()
+            return
+        }
         // delete any previous figures by removing them from the model
         model.figures = CopyOnWriteArrayList()
 
@@ -210,4 +223,28 @@ class GameController(private val model: GameViewModel,
             activity.timeLeftTextView.text = timeLeftToMove
         }
     }
+
+    fun pauseGame() {
+        refreshThread?.pauseGame()
+
+        // we don't want timer to call our gameOverTimeUp()
+        // method, se we unregister ourselves before cancelling it
+        gameTimer?.paused = true
+
+        gameTimer?.cancel()
+        gameTimer = null
+    }
+
+
+
+    fun resumeGame() {
+        if (gameTimer != null) {
+            return
+        }
+        gameTimer = GameTimer(this, model)
+        gameTimer?.start()
+        refreshThread?.resumeGame()
+    }
+
+
 }

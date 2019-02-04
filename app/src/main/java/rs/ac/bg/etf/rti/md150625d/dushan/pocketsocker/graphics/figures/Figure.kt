@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.ShapeDrawable
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.viewModels.GameViewModel
+import java.io.Serializable
 
 abstract class Figure// initiate bounds
     (
@@ -16,7 +17,7 @@ abstract class Figure// initiate bounds
     var model: GameViewModel,
     var boundWidth: Int,
     var boundHeight: Int
-) : ShapeDrawable() {
+) : ShapeDrawable(), Serializable{
 
     @get: Synchronized @set:Synchronized
     var x: Int = x

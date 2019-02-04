@@ -3,7 +3,7 @@ package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures
 import android.graphics.*
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.viewModels.GameViewModel
 
-class Ball(
+class Ball (
     model: GameViewModel, x: Int = 0, y: Int = 0, speedX: Int = 0, speedY: Int = 0)
     : Figure(
         x,

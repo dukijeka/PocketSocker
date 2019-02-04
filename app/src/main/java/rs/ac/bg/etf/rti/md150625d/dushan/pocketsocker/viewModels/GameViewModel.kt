@@ -5,10 +5,11 @@ import android.graphics.Bitmap
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Ball
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Figure
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Player
+import java.io.Serializable
 import java.util.concurrent.CopyOnWriteArrayList
 
-class GameViewModel: ViewModel() {
-    // constants
+class GameViewModel : Serializable {
+    // these are changed automatically depending on pixel density
     @get: Synchronized @set: Synchronized
     var PLAYER_SIZE = 200
     @get: Synchronized @set: Synchronized
@@ -62,4 +63,6 @@ class GameViewModel: ViewModel() {
     var timeLeftToMove = 10
 
     val timePerMove = 10
+
+    var loadedModel = false
 }
