@@ -68,26 +68,34 @@ class RefreshThread(var model: GameViewModel, private var controller: GameContro
 
             if (figure is Player) {
                 // shade players if it's not their turn
-                if (figure.type == PlayerType.PLAYER1 && turn != Turn.PLAYER1) {
+                if (figure.type == PlayerType.PLAYER1 && (
+                            turn != Turn.PLAYER1 && turn != Turn.COMPUTER1)
+                ) {
                     val filter = PorterDuffColorFilter(
                         0x99000000.toInt(),
                         PorterDuff.Mode.SRC_ATOP
                     )
                     figure.paint.colorFilter = filter
                     continue
-                } else if (figure.type == PlayerType.PLAYER1 && turn == Turn.PLAYER1) {
+                } else if (figure.type == PlayerType.PLAYER1 &&
+                    (turn == Turn.PLAYER1 || turn == Turn.COMPUTER1)
+                ) {
                     figure.paint.colorFilter = null
                     continue
                 }
 
-                if (figure.type == PlayerType.PLAYER2 && turn != Turn.PLAYER2) {
+                if (figure.type == PlayerType.PLAYER2 &&
+                    (turn != Turn.PLAYER2 && turn != Turn.COMPUTER2)
+                ) {
                     val filter = PorterDuffColorFilter(
                         0x99000000.toInt(),
                         PorterDuff.Mode.SRC_ATOP
                     )
                     figure.paint.colorFilter = filter
                     continue
-                } else if (figure.type == PlayerType.PLAYER2 && turn == Turn.PLAYER2){
+                } else if (figure.type == PlayerType.PLAYER2 &&
+                    (turn == Turn.PLAYER2 || turn == Turn.COMPUTER2)
+                ){
                     figure.paint.colorFilter = null
                     continue
                 }

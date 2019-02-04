@@ -57,12 +57,22 @@ class GameViewModel : Serializable {
     var player2Score: Int = 0
 
     @get: Synchronized @set: Synchronized
-    var timeLeft: Int = 180
+    var timeLeft: Int = 60
+
+    @get: Synchronized @set: Synchronized
+    var timeLimited = false
 
     @get: Synchronized @set: Synchronized
     var timeLeftToMove = 10
 
-    val timePerMove = 10
+    val timePerMove = 5
 
     var loadedModel = false
+
+    @get: Synchronized @set: Synchronized
+    var isPlayer1Computer: Boolean = false // default
+
+    @get: Synchronized @set: Synchronized
+    var isPlayer2Computer: Boolean = false // default
+
 }

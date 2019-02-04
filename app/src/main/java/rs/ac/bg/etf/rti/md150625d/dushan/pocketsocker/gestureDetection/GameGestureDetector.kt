@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.view.GestureDetector
 import android.view.MotionEvent
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.controllers.GameController
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.controllers.Turn
 
 class GameGestureDetector(val controller: GameController) : GestureDetector.SimpleOnGestureListener() {
 //    override fun onDown(e: MotionEvent?): Boolean {
@@ -28,7 +29,11 @@ class GameGestureDetector(val controller: GameController) : GestureDetector.Simp
         e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float)
             : Boolean {
         if (e1 == null) {
-            return false
+            return super.onFling(e1, e2, velocityX, velocityY)
+        }
+
+        if (controller.turn == Turn.COMPUTER1 || controller.turn == Turn.COMPUTER2) {
+            return super.onFling(e1, e2, velocityX, velocityY)
         }
 
         // x and y are the coordinates of the center of the touch

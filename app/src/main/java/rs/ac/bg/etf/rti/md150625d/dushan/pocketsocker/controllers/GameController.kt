@@ -5,6 +5,7 @@ import android.media.MediaPlayer
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game.*
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.ai.SimpleAI
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.GameImageView
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Ball
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Goal
@@ -29,6 +30,9 @@ class GameController(private val model: GameViewModel,
     var refreshThread : RefreshThread? = null
     var gameTimer: GameTimer? = null
 
+    var computer1 = SimpleAI(model, this, PlayerType.PLAYER1)
+    var computer2 = SimpleAI(model, this, PlayerType.PLAYER2)
+
     private var state: State = State.SELECTION
 
     init {
@@ -44,6 +48,11 @@ class GameController(private val model: GameViewModel,
         gameTimer = GameTimer(this, model)
 
         gameTimer?.start()
+
+        if (model.isPlayer1Computer) {
+            turn = Turn.COMPUTER1
+            computer1.playMove()
+        }
     }
 
     fun sizeChanged() {
@@ -51,12 +60,13 @@ class GameController(private val model: GameViewModel,
     }
 
     private fun placeFigures() {
-        //don't reset figures if we're loading saved game
+        // don't reset figures if we're loading saved game
         if (model.loadedModel) {
             model.loadedModel = false
             updateScore()
             return
         }
+
         // delete any previous figures by removing them from the model
         model.figures = CopyOnWriteArrayList()
 
@@ -147,8 +157,10 @@ class GameController(private val model: GameViewModel,
 
             if (touch.intersect(figure.bounds)) {
                 if (
-                    turn == Turn.PLAYER1 && figure.type == PlayerType.PLAYER1
-                    || turn == Turn.PLAYER2 && figure.type == PlayerType.PLAYER2
+                    ((turn == Turn.PLAYER1 || turn == Turn.COMPUTER1) &&
+                            figure.type == PlayerType.PLAYER1
+                    || (turn == Turn.PLAYER2 || turn == Turn.COMPUTER2) &&
+                            figure.type == PlayerType.PLAYER2)
                 ) {
                     model.selectedPlayer = figure
                     state = State.MOVEMENT
@@ -174,10 +186,20 @@ class GameController(private val model: GameViewModel,
     }
 
     private fun switchPlayers() {
-        turn = if (turn == Turn.PLAYER1) {
-            Turn.PLAYER2
-        } else {
-            Turn.PLAYER1
+        if (turn == Turn.PLAYER1 || turn == Turn.COMPUTER1) {
+            if (model.isPlayer2Computer) {
+                turn = Turn.COMPUTER2
+                computer2.playMove()
+            } else {
+                turn = Turn.PLAYER2
+            }
+        } else { // it's player1's or computer1's turn, switch to player2 or computer2
+            if (model.isPlayer1Computer) {
+                turn = Turn.COMPUTER1
+                computer1.playMove()
+            } else {
+                turn = Turn.PLAYER1
+            }
         }
     }
 
@@ -190,6 +212,9 @@ class GameController(private val model: GameViewModel,
             Toast.makeText(activity, "Goal", Toast.LENGTH_SHORT).show()
         }
 
+        computer1.cancelMove()
+        computer2.cancelMove()
+
         if (model.ball != null && model.ball!!.x <= 0) {
             model.player2Score++
         } else {
@@ -200,9 +225,28 @@ class GameController(private val model: GameViewModel,
 
         placeFigures()
         model.timeLeftToMove = model.timePerMove
+
+        // if  it's computer's turn, then play the move
+        if (turn == Turn.COMPUTER2) {
+            computer2.playMove()
+        } else if (turn == Turn.COMPUTER1) {
+            computer1.playMove()
+        }
     }
 
     fun gameOverTimeUp() {
+        if (!model.timeLimited) {
+            gameTimer?.paused = true
+            gameTimer?.cancel()
+
+            // reset time
+            model.timeLeft = 60
+
+            gameTimer = GameTimer(this, model)
+            gameTimer?.start()
+            return
+        }
+
         activity.runOnUiThread {
             activity.finishGame()
         }
@@ -222,10 +266,14 @@ class GameController(private val model: GameViewModel,
     }
 
     fun updateTime() {
-        activity.runOnUiThread {
-            val totalTimeLeft = "TIME: " + model.timeLeft
-            activity.timeTextView.text = totalTimeLeft
+        if (model.timeLimited) {
+            activity.runOnUiThread {
+                val totalTimeLeft = "TIME: " + model.timeLeft
+                activity.timeTextView.text = totalTimeLeft
+            }
 
+        }
+        activity.runOnUiThread {
             val timeLeftToMove = "" + model.timeLeftToMove
             activity.timeLeftTextView.text = timeLeftToMove
         }

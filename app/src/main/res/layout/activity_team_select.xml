@@ -37,18 +37,19 @@
             app:layout_constraintTop_toTopOf="@+id/secondTeamLeftArrow"
             app:layout_constraintBottom_toBottomOf="@+id/secondTeamLeftArrow" app:layout_constraintVertical_bias="0.0"/>
     <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="206dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/player2NameEditText"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/secondTeamFlag" android:hint="Name"
-            android:fontFamily="sans-serif" android:textColor="@color/colorAccent"
-            style="@android:style/Widget.DeviceDefault.EditText" android:background="@android:color/background_light"/>
+            android:fontFamily="@font/frijole" android:textColor="@color/colorAccent"
+            style="@android:style/Widget.DeviceDefault.EditText" android:background="@android:color/background_light"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/player2ComputerCheckBox"/>
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" app:srcCompat="@drawable/ic_chevron_left_black_24dp"
@@ -90,16 +91,18 @@
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@+id/firstTeamLeftArrow"
             app:layout_constraintBottom_toBottomOf="@+id/firstTeamLeftArrow" app:layout_constraintVertical_bias="0.0"/>
     <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="206dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/player1NameEditText"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="36dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="40dp"
             app:layout_constraintTop_toBottomOf="@+id/firstTeamLeftArrow"
-            android:hint="Name" android:background="@android:color/background_light"/>
+            android:hint="Name" android:background="@android:color/background_light"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/player1ComputerCheckBox"
+            android:textColor="@color/colorAccent" android:fontFamily="@font/frijole"/>
     <TextView
             android:text="Player 2"
             android:layout_width="wrap_content"
@@ -112,4 +115,25 @@
             app:layout_constraintVertical_bias="1.0" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"/>
+    <CheckBox
+            android:text="Computer"
+            android:onClick="onPlayer1ComputerCheckboxClicked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/player1ComputerCheckBox" android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/player1NameEditText" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@+id/player1NameEditText"
+            app:layout_constraintBottom_toBottomOf="@+id/player1NameEditText"
+            android:textColor="@android:color/holo_red_light" android:fontFamily="@font/frijole"
+            android:typeface="normal" android:buttonTint="@android:color/holo_red_light"/>
+    <CheckBox
+            android:text="Computer"
+            android:onClick="onPlayer2ComputerCheckboxClicked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/player2ComputerCheckBox"
+            app:layout_constraintStart_toEndOf="@+id/player2NameEditText" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@+id/player2NameEditText"
+            app:layout_constraintBottom_toBottomOf="@+id/player2NameEditText" android:fontFamily="@font/frijole"
+            android:textColor="@android:color/holo_red_light" android:buttonTint="@android:color/holo_red_light"/>
 </android.support.constraint.ConstraintLayout>

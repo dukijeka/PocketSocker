@@ -5,6 +5,9 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.support.v4.content.res.ResourcesCompat
+import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_team_select.*
@@ -22,6 +25,10 @@ class TeamSelectActivity : AppCompatActivity() {
 
         model = ViewModelProviders.of(this).get(TeamSelectViewModel::class.java)
         model.flags = assets.list("image_flags")
+
+        // workaround android studio checkbox font bug
+        player1ComputerCheckBox.typeface = ResourcesCompat.getFont(this, R.font.frijole)
+        player2ComputerCheckBox.typeface = ResourcesCompat.getFont(this, R.font.frijole)
 
     }
 
@@ -82,11 +89,45 @@ class TeamSelectActivity : AppCompatActivity() {
             return
         }
 
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        // delete previous saved state
+        with (sharedPreferences.edit()) {
+            remove(getString(R.string.preference_file_key))
+            commit()
+        }
+
         val intent = Intent(this, GameActivity::class.java)
         intent.putExtra("player1Name", player1NameEditText.text.toString())
         intent.putExtra("player2Name", player2NameEditText.text.toString())
         intent.putExtra("player1FlagNumber", model.player1Flag)
         intent.putExtra("player2FlagNumber", model.player2Flag)
+        intent.putExtra("isPlayer1Computer", player1ComputerCheckBox.isChecked)
+        intent.putExtra("isPlayer2Computer", player2ComputerCheckBox.isChecked)
+
         startActivity(intent)
+    }
+
+    fun onPlayer1ComputerCheckboxClicked(v: View) {
+        if (player1ComputerCheckBox.isChecked) {
+            player1NameEditText.setText("SKYNET")
+            player1NameEditText.setTextColor(getColor(android.R.color.holo_red_dark))
+            player1NameEditText.isEnabled = false
+        } else {
+            player1NameEditText.setTextColor(getColor(R.color.colorAccent))
+            player1NameEditText.setText("")
+            player1NameEditText.isEnabled = true
+        }
+    }
+
+    fun onPlayer2ComputerCheckboxClicked(v: View) {
+        if (player2ComputerCheckBox.isChecked) {
+            player2NameEditText.setText("HAL 9000")
+            player2NameEditText.setTextColor(getColor(android.R.color.holo_red_dark))
+            player2NameEditText.isEnabled = false
+        } else {
+            player2NameEditText.setText("")
+            player2NameEditText.setTextColor(getColor(R.color.colorAccent))
+            player2NameEditText.isEnabled = true
+        }
     }
 }

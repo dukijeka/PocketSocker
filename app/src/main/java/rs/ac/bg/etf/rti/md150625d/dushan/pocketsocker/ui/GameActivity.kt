@@ -64,13 +64,23 @@ class GameActivity : AppCompatActivity() {
                 model.ballBitmap = BitmapFactory.decodeResource(resources, rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R.drawable.soccer_ball)
                 model.loadedModel = true
 
+
+
+
             } else {
                 initializeModel()
             }
 
+            model.isPlayer1Computer = intent.getBooleanExtra("isPlayer1Computer", false)
+            model.isPlayer2Computer = intent.getBooleanExtra("isPlayer2Computer", false)
+
             controller = GameController(model, gameImageView, this)
         }
+
+
         gestureDetector = GestureDetectorCompat(this, GameGestureDetector(controller))
+
+
     }
 
     private fun initializeModel() {
