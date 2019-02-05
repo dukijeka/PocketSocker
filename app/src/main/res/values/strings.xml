@@ -6,4 +6,15 @@
     <string name="settingsButton">SETTINGS</string>
     <string name="title_activity_game">GameActivity</string>
     <string name="preference_file_key">rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.savedState</string>
+
+    <string-array name="backgrounds">
+        <item>Grass</item>
+        <item>Concrete</item>
+    </string-array>
+
+    <string-array name="speeds">
+        <item>Slow</item>
+        <item>Medium</item>
+        <item>Fast</item>
+    </string-array>
 </resources>

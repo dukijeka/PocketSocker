@@ -42,6 +42,7 @@
             app:layout_constraintEnd_toEndOf="@+id/settingsButton"/>
     <TextView
             android:text="@string/settingsButton"
+            android:onClick="onSettingsButtonClicked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/settingsButton"
             android:fontFamily="@font/frijole" android:textSize="18sp"

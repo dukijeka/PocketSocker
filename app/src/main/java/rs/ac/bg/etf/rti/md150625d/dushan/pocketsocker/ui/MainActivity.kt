@@ -53,4 +53,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun onSettingsButtonClicked(v: View) {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+    }
+
 }
