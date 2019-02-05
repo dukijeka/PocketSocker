@@ -60,7 +60,7 @@ class GameViewModel : Serializable {
     var timeLeft: Int = 60
 
     @get: Synchronized @set: Synchronized
-    var timeLimited = false
+    var timeLimited = true
 
     @get: Synchronized @set: Synchronized
     var timeLeftToMove = 10
