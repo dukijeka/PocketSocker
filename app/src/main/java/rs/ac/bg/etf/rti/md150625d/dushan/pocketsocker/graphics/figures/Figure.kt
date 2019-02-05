@@ -19,7 +19,6 @@ abstract class Figure// initiate bounds
     var boundHeight: Int
 ) : ShapeDrawable(), Serializable{
 
-    @get: Synchronized @set:Synchronized
     var speedX: Int = speedX
         set(value) {
             val maxSpeed = model.maxSpeed
@@ -30,7 +29,6 @@ abstract class Figure// initiate bounds
             }
         }
 
-    @get: Synchronized @set:Synchronized
     var speedY: Int = speedY
         set(value) {
             val maxSpeed = model.maxSpeed

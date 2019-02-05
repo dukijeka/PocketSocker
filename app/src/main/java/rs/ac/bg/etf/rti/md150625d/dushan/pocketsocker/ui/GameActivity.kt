@@ -71,9 +71,6 @@ class GameActivity : AppCompatActivity() {
                 initializeModel()
             }
 
-            model.isPlayer1Computer = intent.getBooleanExtra("isPlayer1Computer", false)
-            model.isPlayer2Computer = intent.getBooleanExtra("isPlayer2Computer", false)
-
             controller = GameController(model, gameImageView, this)
         }
 
@@ -100,6 +97,9 @@ class GameActivity : AppCompatActivity() {
         )
 
         model.ballBitmap = BitmapFactory.decodeResource(resources, rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R.drawable.soccer_ball)
+
+        model.isPlayer1Computer = intent.getBooleanExtra("isPlayer1Computer", false)
+        model.isPlayer2Computer = intent.getBooleanExtra("isPlayer2Computer", false)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

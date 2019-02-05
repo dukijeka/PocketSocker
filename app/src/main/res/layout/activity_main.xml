@@ -11,40 +11,54 @@
             android:text="@string/loadButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/loadGameButton"
-            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onLoadGameButtonClicked" android:fontFamily="@font/frijole" android:textSize="18sp"
+            android:textStyle="bold" android:textColor="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@+id/titleTextView"
             app:layout_constraintBottom_toTopOf="@+id/startGameButton"
             app:layout_constraintStart_toStartOf="@+id/startGameButton"
-            app:layout_constraintEnd_toEndOf="@+id/startGameButton"
-            android:onClick="onLoadGameButtonClicked" android:fontFamily="@font/frijole" android:textSize="18sp"
-            android:textStyle="bold" android:textColor="@color/colorAccent"/>
+            app:layout_constraintEnd_toEndOf="@+id/startGameButton" app:layout_constraintHorizontal_bias="0.0"
+    />
     <TextView
             android:text="@string/startGameButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/startGameButton"
+            android:onClick="startGameButtonClicked" android:fontFamily="@font/frijole" android:textSize="18sp"
+            android:textStyle="bold" android:textColor="@color/colorAccent"
             app:layout_constraintTop_toBottomOf="@+id/loadGameButton"
             app:layout_constraintBottom_toTopOf="@+id/statisticsButton"
             app:layout_constraintStart_toStartOf="@+id/statisticsButton"
-            app:layout_constraintEnd_toEndOf="@+id/statisticsButton"
-            android:onClick="startGameButtonClicked" android:fontFamily="@font/frijole" android:textSize="18sp"
-            android:textStyle="bold" android:textColor="@color/colorAccent"/>
+            app:layout_constraintEnd_toEndOf="@+id/statisticsButton" app:layout_constraintHorizontal_bias="0.7"
+    />
     <TextView
             android:text="@string/statisticsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/statisticsButton"
+            android:fontFamily="@font/frijole" android:textSize="18sp"
+            android:textStyle="bold" android:textColor="@color/colorAccent"
             app:layout_constraintTop_toBottomOf="@+id/startGameButton"
             app:layout_constraintBottom_toTopOf="@+id/settingsButton"
             app:layout_constraintStart_toStartOf="@+id/settingsButton"
-            app:layout_constraintEnd_toEndOf="@+id/settingsButton" android:fontFamily="@font/frijole" android:textSize="18sp"
-            android:textStyle="bold" android:textColor="@color/colorAccent"/>
+            app:layout_constraintEnd_toEndOf="@+id/settingsButton"/>
     <TextView
             android:text="@string/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/settingsButton"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/statisticsButton"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:fontFamily="@font/frijole" android:textSize="18sp"
             android:textStyle="bold" android:textColor="@color/colorAccent"
-    />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statisticsButton"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+            android:text="POCKET SOCKER"
+            android:layout_width="247dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/titleTextView"
+            android:textSize="36sp" android:fontFamily="@font/frijole"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp" android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.614"/>
 </android.support.constraint.ConstraintLayout>

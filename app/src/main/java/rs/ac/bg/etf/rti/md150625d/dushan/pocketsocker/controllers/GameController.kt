@@ -175,13 +175,25 @@ class GameController(private val model: GameViewModel,
             return
         }
 
-        model.selectedPlayer!!.speedX = velocityX.toInt() / 50
-        model.selectedPlayer!!.speedY = velocityY.toInt() / 50
+        // keep x and y speed ratio when speed limit is too small
+        if (Math.abs(velocityX / 50) > model.maxSpeed) {
+            val ratio = Math.abs(velocityX / 50) / model.maxSpeed
+            model.selectedPlayer!!.speedX = (velocityX.toInt() / (50 * ratio)).toInt()
+            model.selectedPlayer!!.speedY = (velocityY.toInt() / (50 * ratio)).toInt()
+        } else if (Math.abs(velocityY / 50) > model.maxSpeed) {
+            val ratio = Math.abs(velocityX / 50) / model.maxSpeed
+            model.selectedPlayer!!.speedX = (velocityX.toInt() / (50 * ratio)).toInt()
+            model.selectedPlayer!!.speedY = (velocityY.toInt() / (50 * ratio)).toInt()
+        } else {
+            model.selectedPlayer!!.speedX = velocityX.toInt() / 50
+            model.selectedPlayer!!.speedY = velocityY.toInt() / 50
+        }
+
 
         state = State.SELECTION
 
-        Log.d("vellocityX: ", (model.selectedPlayer!!.speedX).toString())
-        Log.d("vellocityY: ", (model.selectedPlayer!!.speedY).toString())
+        //Log.d("vellocityX: ", (model.selectedPlayer!!.speedX).toString())
+        //Log.d("vellocityY: ", (model.selectedPlayer!!.speedY).toString())
 
 
         switchPlayers()
