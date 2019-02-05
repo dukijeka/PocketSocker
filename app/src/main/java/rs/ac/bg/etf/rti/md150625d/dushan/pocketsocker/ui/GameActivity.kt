@@ -77,6 +77,8 @@ class GameActivity : AppCompatActivity() {
                 initializeModel()
             }
 
+            gameImageView.background = ContextCompat.getDrawable(this, model.background)
+
             controller = GameController(model, gameImageView, this)
         }
 
@@ -116,13 +118,11 @@ class GameActivity : AppCompatActivity() {
             sharedPreferences.getBoolean("timeLimitedDefault", timeLimited)
         }
 
-        field = if (sharedPreferences.contains("field")) {
+        model.background = if (sharedPreferences.contains("field")) {
             sharedPreferences.getInt("field", field)
         } else {
             sharedPreferences.getInt("fieldDefault", field)
         }
-
-        gameImageView.background = ContextCompat.getDrawable(this, field)
 
         model.goalLimit = if (sharedPreferences.contains("limit")) {
             sharedPreferences.getInt("limit", limit)

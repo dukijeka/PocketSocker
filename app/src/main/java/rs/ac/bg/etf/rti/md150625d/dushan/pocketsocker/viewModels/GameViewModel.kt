@@ -2,6 +2,7 @@ package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.viewModels
 
 import android.arch.lifecycle.ViewModel
 import android.graphics.Bitmap
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Ball
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Figure
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.figures.Player
@@ -80,5 +81,7 @@ class GameViewModel : Serializable {
 
     @get: Synchronized @set: Synchronized
     var maxSpeed = 800
+
+    var background = R.drawable.grass_background
 
 }
