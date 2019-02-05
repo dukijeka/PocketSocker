@@ -60,7 +60,10 @@ class GameViewModel : Serializable {
     var timeLeft: Int = 60
 
     @get: Synchronized @set: Synchronized
-    var timeLimited = true
+    var goalLimit: Int = 10
+
+    @get: Synchronized @set: Synchronized
+    var timeLimited = false
 
     @get: Synchronized @set: Synchronized
     var timeLeftToMove = 10
@@ -76,6 +79,6 @@ class GameViewModel : Serializable {
     var isPlayer2Computer: Boolean = false // default
 
     @get: Synchronized @set: Synchronized
-    var maxSpeed = 1000
+    var maxSpeed = 800
 
 }

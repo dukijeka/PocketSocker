@@ -52,6 +52,12 @@ class GameController(private val model: GameViewModel,
             turn = Turn.COMPUTER1
             computer1.playMove()
         }
+
+        activity.runOnUiThread {
+            val text = "SCORE " + model.goalLimit + " GOALS TO WIN!"
+                    activity.timeTextView.text = text
+        }
+
     }
 
     fun sizeChanged() {
@@ -238,6 +244,14 @@ class GameController(private val model: GameViewModel,
 
         playApplause()
 
+        if (!model.timeLimited) { // the limit is number of goals
+            if (model.player1Score >= model.goalLimit || model.player2Score >= model.goalLimit) {
+                activity.runOnUiThread {
+                    activity.finishGame()
+                }
+            }
+        }
+
         placeFigures()
         model.timeLeftToMove = model.timePerMove
 
@@ -288,6 +302,7 @@ class GameController(private val model: GameViewModel,
             }
 
         }
+
         activity.runOnUiThread {
             val timeLeftToMove = "" + model.timeLeftToMove
             activity.timeLeftTextView.text = timeLeftToMove

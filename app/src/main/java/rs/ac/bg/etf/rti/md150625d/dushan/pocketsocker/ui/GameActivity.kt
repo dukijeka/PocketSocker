@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.PersistableBundle
 import android.preference.PreferenceManager
+import android.support.v4.content.ContextCompat
 import java.io.ObjectOutputStream
 import java.io.ObjectInputStream
 
@@ -29,6 +30,11 @@ class GameActivity : AppCompatActivity() {
     private lateinit var model: GameViewModel
     private lateinit var controller: GameController
     private lateinit var gestureDetector: GestureDetectorCompat
+
+    private var field: Int = R.drawable.grass_background
+    private var timeLimited: Boolean = true
+    private var limit: Int = 60
+    private var speed: Int = 200
 
 
 
@@ -100,6 +106,41 @@ class GameActivity : AppCompatActivity() {
 
         model.isPlayer1Computer = intent.getBooleanExtra("isPlayer1Computer", false)
         model.isPlayer2Computer = intent.getBooleanExtra("isPlayer2Computer", false)
+
+        // restore saved settings
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+
+        model.timeLimited = if (sharedPreferences.contains("timeLimited")) {
+            sharedPreferences.getBoolean("timeLimited", timeLimited)
+        } else {
+            sharedPreferences.getBoolean("timeLimitedDefault", timeLimited)
+        }
+
+        field = if (sharedPreferences.contains("field")) {
+            sharedPreferences.getInt("field", field)
+        } else {
+            sharedPreferences.getInt("fieldDefault", field)
+        }
+
+        gameImageView.background = ContextCompat.getDrawable(this, field)
+
+        model.goalLimit = if (sharedPreferences.contains("limit")) {
+            sharedPreferences.getInt("limit", limit)
+        } else {
+            sharedPreferences.getInt("limitDefault", limit)
+        }
+
+        model.timeLeft = if (sharedPreferences.contains("limit")) {
+            sharedPreferences.getInt("limit", limit)
+        } else {
+            sharedPreferences.getInt("limitDefault", limit)
+        }
+
+        model.maxSpeed = if (sharedPreferences.contains("speed")) {
+            sharedPreferences.getInt("speed", speed)
+        } else {
+            sharedPreferences.getInt("speedDefault", speed)
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

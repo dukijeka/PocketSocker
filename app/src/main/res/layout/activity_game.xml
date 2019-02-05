@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.GameActivity">
+        tools:context=".ui.GameActivity" android:id="@+id/rootConstraintLayout">
 
 
     <rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.GameImageView
