@@ -12,12 +12,34 @@ abstract class Figure// initiate bounds
     (
     x: Int = 0,
     y: Int = 0,
-    var speedX: Int = 0,
-    var speedY: Int = 0,
+    speedX: Int = 0,
+    speedY: Int = 0,
     var model: GameViewModel,
     var boundWidth: Int,
     var boundHeight: Int
 ) : ShapeDrawable(), Serializable{
+
+    @get: Synchronized @set:Synchronized
+    var speedX: Int = speedX
+        set(value) {
+            val maxSpeed = model.maxSpeed
+            if (value > 0) {
+                field = if (value < maxSpeed) value else maxSpeed
+            } else {
+                field = if (value > -maxSpeed) value else -maxSpeed
+            }
+        }
+
+    @get: Synchronized @set:Synchronized
+    var speedY: Int = speedY
+        set(value) {
+            val maxSpeed = model.maxSpeed
+            if (value > 0) {
+                field = if (value < maxSpeed) value else maxSpeed
+            } else {
+                field = if (value > -maxSpeed) value else -maxSpeed
+            }
+        }
 
     @get: Synchronized @set:Synchronized
     var x: Int = x

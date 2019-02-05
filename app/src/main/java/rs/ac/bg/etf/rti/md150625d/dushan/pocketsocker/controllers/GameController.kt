@@ -175,16 +175,13 @@ class GameController(private val model: GameViewModel,
             return
         }
 
-        val maxSpeed = model.maxSpeed
+        model.selectedPlayer!!.speedX = velocityX.toInt() / 50
+        model.selectedPlayer!!.speedY = velocityY.toInt() / 50
 
-        model.selectedPlayer!!.speedX =
-            if (velocityX.toInt() / 50 < maxSpeed) velocityX.toInt() / 50 else maxSpeed
-        model.selectedPlayer!!.speedY =
-            if (velocityY.toInt() / 50 < maxSpeed) velocityY.toInt() / 50 else maxSpeed
         state = State.SELECTION
 
-        //Log.d("vellocityX: ", (velocityX.toInt() / 50).toString())
-        //Log.d("vellocityY: ", (velocityY.toInt() / 50).toString())
+        Log.d("vellocityX: ", (model.selectedPlayer!!.speedX).toString())
+        Log.d("vellocityY: ", (model.selectedPlayer!!.speedY).toString())
 
 
         switchPlayers()
