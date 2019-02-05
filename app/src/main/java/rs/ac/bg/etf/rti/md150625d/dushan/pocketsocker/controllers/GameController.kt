@@ -1,10 +1,9 @@
 package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.controllers
 
 import android.graphics.Rect
-import android.media.MediaPlayer
+import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game.*
-import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.ai.SimpleAI
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.audio.GameMediaPlayer
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.graphics.GameImageView
@@ -176,9 +175,16 @@ class GameController(private val model: GameViewModel,
             return
         }
 
-        model.selectedPlayer!!.speedX = velocityX.toInt() / 50
-        model.selectedPlayer!!.speedY = velocityY.toInt() / 50
+        val maxSpeed = model.maxSpeed
+
+        model.selectedPlayer!!.speedX =
+            if (velocityX.toInt() / 50 < maxSpeed) velocityX.toInt() / 50 else maxSpeed
+        model.selectedPlayer!!.speedY =
+            if (velocityY.toInt() / 50 < maxSpeed) velocityY.toInt() / 50 else maxSpeed
         state = State.SELECTION
+
+        //Log.d("vellocityX: ", (velocityX.toInt() / 50).toString())
+        //Log.d("vellocityY: ", (velocityY.toInt() / 50).toString())
 
 
         switchPlayers()

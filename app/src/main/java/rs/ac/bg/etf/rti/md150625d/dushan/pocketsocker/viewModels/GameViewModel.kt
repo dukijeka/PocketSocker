@@ -75,4 +75,7 @@ class GameViewModel : Serializable {
     @get: Synchronized @set: Synchronized
     var isPlayer2Computer: Boolean = false // default
 
+    @get: Synchronized @set: Synchronized
+    var maxSpeed = 900
+
 }
