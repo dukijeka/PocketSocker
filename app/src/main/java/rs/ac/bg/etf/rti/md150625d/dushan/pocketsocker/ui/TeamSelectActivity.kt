@@ -97,8 +97,8 @@ class TeamSelectActivity : AppCompatActivity() {
         }
 
         val intent = Intent(this, GameActivity::class.java)
-        intent.putExtra("player1Name", player1NameEditText.text.toString())
-        intent.putExtra("player2Name", player2NameEditText.text.toString())
+        intent.putExtra("player1Name", player1NameEditText.text.toString().toUpperCase())
+        intent.putExtra("player2Name", player2NameEditText.text.toString().toUpperCase())
         intent.putExtra("player1FlagNumber", model.player1Flag)
         intent.putExtra("player2FlagNumber", model.player2Flag)
         intent.putExtra("isPlayer1Computer", player1ComputerCheckBox.isChecked)

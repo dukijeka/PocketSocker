@@ -1,5 +1,6 @@
 package rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.ui
 
+import android.app.Application
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -21,8 +22,12 @@ import android.content.SharedPreferences
 import android.os.PersistableBundle
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.database.entity.Match
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.database.entity.Player
+import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.repositories.GameRepository
 import java.io.ObjectOutputStream
 import java.io.ObjectInputStream
+import java.util.*
 
 
 class GameActivity : AppCompatActivity() {
@@ -35,9 +40,6 @@ class GameActivity : AppCompatActivity() {
     private var timeLimited: Boolean = true
     private var limit: Int = 60
     private var speed: Int = 200
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,9 +166,43 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun finishGame() {
+        // update database
+        val repository: GameRepository = GameRepository(applicationContext as Application)
+        //try to find first player
+        var player1 = repository.findPlayerByName(model.player1Name)
+        var player2 = repository.findPlayerByName(model.player2Name)
+
+        if (player1 == null) {
+            player1 = Player(model.player1Name, 0)
+        }
+
+        if (player2 == null) {
+            player2 = Player(model.player2Name, 0)
+        }
+
+        if (model.player1Score > model.player2Score) {
+            player1.winsCnt++
+        }
+
+        if (model.player2Score > model.player1Score) {
+            player2.winsCnt++
+        }
+
+        // if players exist, on conflict strategy in the db is to replace them
+        repository.insertPlayer(player1)
+        repository.insertPlayer(player2)
+
+        repository.insertMatch(
+            Match(
+                model.player1Name,
+                model.player2Name,
+                Date(), model.player1Score,
+                model.player2Score
+            )
+        )
+
+
         val intent = Intent(this, ResultsActivity::class.java)
-        // clears this activity form the Activity stack, so the user can't get back to it
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // doesn't work
         startActivity(intent)
     }
 
