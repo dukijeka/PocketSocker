@@ -12,7 +12,7 @@ interface MatchDao {
     fun insertMatch(match: Match)
 
     @Query("select * from matches")
-    fun getAllMatches(): LiveData<List<Match>>
+    fun getAllMatches(): List<Match>
 
     @Query("select * from matches where id = :id")
     fun getMatchByID(id: Int): Match

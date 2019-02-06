@@ -32,6 +32,7 @@
     />
     <TextView
             android:text="@string/statisticsButton"
+            android:onClick="onStatisticsButtonClicked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/statisticsButton"
             android:fontFamily="@font/frijole" android:textSize="18sp"

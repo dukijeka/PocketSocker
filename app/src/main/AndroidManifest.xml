@@ -9,6 +9,8 @@
             android:roundIcon="@drawable/soccer_ball"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <activity android:name=".ui.StatisticsActivity">
+        </activity>
         <activity android:name=".ui.SettingsActivity">
         </activity>
         <activity android:name=".ui.ResultsActivity">

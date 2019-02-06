@@ -17,7 +17,7 @@ interface PlayerDao {
     fun updatePlayer(player: Player)
 
     @Query("select * from players")
-    fun getAllPlayers(): LiveData<Player>
+    fun getAllPlayers(): List<Player>
 
     @Query("delete from players")
     fun deleteAllPlayers()

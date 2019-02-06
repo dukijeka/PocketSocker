@@ -167,28 +167,27 @@ class GameActivity : AppCompatActivity() {
 
     fun finishGame() {
         // update database
-        val repository: GameRepository = GameRepository(applicationContext as Application)
+        val repository: GameRepository = GameRepository(applicationContext as Application, model.player1Name, model.player2Name)
         //try to find first player
-        var player1 = repository.findPlayerByName(model.player1Name)
-        var player2 = repository.findPlayerByName(model.player2Name)
+        var player1 = repository.player1
+        var player2 = repository.player2
 
         if (player1 == null) {
             player1 = Player(model.player1Name, 0)
-        }
-
-        if (player2 == null) {
-            player2 = Player(model.player2Name, 0)
         }
 
         if (model.player1Score > model.player2Score) {
             player1.winsCnt++
         }
 
+        if (player2 == null) {
+            player2 = Player(model.player2Name, 0)
+        }
+
         if (model.player2Score > model.player1Score) {
             player2.winsCnt++
         }
 
-        // if players exist, on conflict strategy in the db is to replace them
         repository.insertPlayer(player1)
         repository.insertPlayer(player2)
 
@@ -203,6 +202,8 @@ class GameActivity : AppCompatActivity() {
 
 
         val intent = Intent(this, ResultsActivity::class.java)
+        intent.putExtra("player1Name", model.player1Name)
+        intent.putExtra("player2Name", model.player2Name)
         startActivity(intent)
     }
 

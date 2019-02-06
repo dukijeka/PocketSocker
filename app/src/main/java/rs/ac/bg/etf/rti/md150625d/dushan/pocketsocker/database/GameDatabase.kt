@@ -15,6 +15,7 @@ import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.database.entity.Player
 abstract class GameDatabase : RoomDatabase() {
 
     companion object {
+        @Volatile
         private var databaseInstance: GameDatabase? = null
 
         @Synchronized
@@ -23,7 +24,7 @@ abstract class GameDatabase : RoomDatabase() {
                 databaseInstance =
                     Room.databaseBuilder(
                         context, GameDatabase::class.java, "game_statistics"
-                    ).fallbackToDestructiveMigration().build()
+                    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
             }
             return databaseInstance!!
         }
