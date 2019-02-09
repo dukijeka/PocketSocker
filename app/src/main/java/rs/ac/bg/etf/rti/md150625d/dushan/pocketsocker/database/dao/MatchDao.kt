@@ -25,4 +25,10 @@ interface MatchDao {
 
     @Query("select * from matches m where (m.player1 = :player1Name and m.player2 = :player2Name) or (m.player1 = :player2Name and m.player2 = :player1Name)")
     fun getMatchesForPlayers(player1Name: String, player2Name: String): LiveData<List<Match>>
+
+    @Query("select count(m.id) from matches m where (m.player1 = :player1Name and m.player2 = :player2Name and m.player1Score > m.player2Score) or (m.player1 = :player2Name and m.player2 = :player1Name and m.player2Score > m.player1Score)")
+    fun getPlayer1Wins(player1Name: String, player2Name: String): Int
+
+    @Query("select count(m.id) from matches m where (m.player1 = :player1Name and m.player2 = :player2Name and m.player2Score > m.player1Score) or (m.player1 = :player2Name and m.player2 = :player1Name and m.player1Score > m.player2Score)")
+    fun getPlayer2Wins(player1Name: String, player2Name: String): Int
 }

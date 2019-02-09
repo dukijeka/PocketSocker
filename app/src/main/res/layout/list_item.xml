@@ -4,7 +4,6 @@
         android:layout_width="fill_parent"
         android:id="@+id/textView"
         android:textSize="14sp"
-        android:paddingTop="10dip" android:paddingBottom="10dip"
         android:fontFamily="@font/frijole"
         android:textColor="@android:color/white"
-        android:layout_height="wrap_content"/>
+        android:layout_height="70dip"/>

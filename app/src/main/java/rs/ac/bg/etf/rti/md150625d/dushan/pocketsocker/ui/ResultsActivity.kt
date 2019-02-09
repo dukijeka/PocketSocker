@@ -30,10 +30,18 @@ class ResultsActivity : AppCompatActivity() {
 
             val allMatchesForPlayers = repository.allMatchesForPlayers
 
-            fillTheList(allMatchesForPlayers, player1Name, player2Name, player1, player2)
+            fillTheList(allMatchesForPlayers,
+                player1Name,
+                player2Name,
+                repository.player1Wins,
+                repository.player2Wins)
 
             allMatchesForPlayers?.observe(this, android.arch.lifecycle.Observer {
-                fillTheList(allMatchesForPlayers, player1Name, player2Name, player1, player2)
+                fillTheList(allMatchesForPlayers,
+                    player1Name,
+                    player2Name,
+                    repository.player1Wins,
+                    repository.player2Wins)
             })
         }
 
@@ -43,8 +51,8 @@ class ResultsActivity : AppCompatActivity() {
     private fun fillTheList(allMatchesForPlayers: LiveData<List<Match>>?,
                             player1Name: String,
                             player2Name: String,
-                            player1: Player?,
-                            player2: Player?) {
+                            player1Wins: Int,
+                            player2Wins: Int) {
         val results = LinkedList<String>()
 
         if (allMatchesForPlayers == null) {
@@ -61,8 +69,10 @@ class ResultsActivity : AppCompatActivity() {
                     + " : " + match.player2Score + " " + match.player2)
         }
 
-        results.add("TOTAL SCORE: " + player1Name + " " + player1?.winsCnt
-                + " : " + player2?.winsCnt + " " + player2Name)
+        results.add("TOTAL SCORE: " + player1Name + " " + player1Wins
+                + " : " + player2Wins + " " + player2Name)
+
+        results.add(" ")
 
         listView.adapter =
             ArrayAdapter<String>(this, R.layout.list_item, results)

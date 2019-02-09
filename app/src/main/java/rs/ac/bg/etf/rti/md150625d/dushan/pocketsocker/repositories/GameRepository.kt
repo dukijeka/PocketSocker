@@ -18,6 +18,8 @@ class GameRepository (application: Application,
     var player1: Player?
     var player2: Player?
     var allMatchesForPlayers: LiveData<List<Match>>
+    var player1Wins: Int
+    var player2Wins: Int
 
     init {
         val database = GameDatabase.getDatabaseInstance(application)
@@ -29,6 +31,9 @@ class GameRepository (application: Application,
         allMatches = matchDao.getAllMatches()
 
         allMatchesForPlayers = matchDao.getMatchesForPlayers(player1Name, player2Name)
+
+        player1Wins = matchDao.getPlayer1Wins(player1Name, player2Name)
+        player2Wins = matchDao.getPlayer2Wins(player1Name, player2Name)
     }
 
     fun insertPlayer(player: Player) {

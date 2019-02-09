@@ -19,7 +19,7 @@ class StatisticsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistics)
 
-        val repository: GameRepository = GameRepository(applicationContext as Application, "", "")
+        var repository: GameRepository = GameRepository(applicationContext as Application, "", "")
 
         var allMatches = repository.allMatches
 
@@ -50,7 +50,9 @@ class StatisticsActivity : AppCompatActivity() {
         }
 
         for (match in distinctPairs) {
-            results.add(match.player1 + " - " + match.player2)
+            repository = GameRepository(applicationContext as Application, match.player1, match.player2)
+            results.add(match.player1 + " " + repository.player1Wins + " : "
+                   + repository.player2Wins + " " + match.player2)
         }
 
         var adapter = ArrayAdapter<String>(this, R.layout.list_item, results)
