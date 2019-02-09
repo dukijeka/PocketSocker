@@ -73,6 +73,9 @@ class ResultsActivity : AppCompatActivity() {
                 + " : " + player2Wins + " " + player2Name)
 
         results.add(" ")
+        results.add(" ")
+        results.add(" ")
+        results.add(" ")
 
         listView.adapter =
             ArrayAdapter<String>(this, R.layout.list_item, results)

@@ -30,6 +30,13 @@ class TeamSelectActivity : AppCompatActivity() {
         player1ComputerCheckBox.typeface = ResourcesCompat.getFont(this, R.font.frijole)
         player2ComputerCheckBox.typeface = ResourcesCompat.getFont(this, R.font.frijole)
 
+        player1NameEditText.onFocusChangeListener = View.OnFocusChangeListener {
+                _, hasFocus -> onPlayer1NameTextEditClicked(hasFocus)
+        }
+
+        player2NameEditText.onFocusChangeListener = View.OnFocusChangeListener {
+                _, hasFocus -> onPlayer2NameTextEditClicked(hasFocus)
+        }
     }
 
     fun onFirstPlayerLeftArrowClick(view: View) {
@@ -59,8 +66,7 @@ class TeamSelectActivity : AppCompatActivity() {
     }
 
     fun onFirstPlayerRightArrowClick(view: View) {
-        // TODO: log, check if model.flags == null
-        model.player1Flag = (model.player1Flag + 1) % model.flags!!.size
+        model.player1Flag = (model.player1Flag + 1) % (model.flags?.size ?: 0)
 
         var inputStream: InputStream = assets.open("image_flags/" +
                 model.flags!![model.player1Flag])
@@ -69,8 +75,7 @@ class TeamSelectActivity : AppCompatActivity() {
     }
 
     fun onSecondPlayerRightArrowClick(view: View) {
-        // TODO: log, check if model.flags == null
-        model.player2Flag = (model.player2Flag + 1) % model.flags!!.size
+        model.player2Flag = (model.player2Flag + 1) % (model.flags?.size ?: 0)
 
         var inputStream: InputStream = assets.open("image_flags/" +
                 model.flags!![model.player2Flag])
@@ -86,6 +91,11 @@ class TeamSelectActivity : AppCompatActivity() {
 
         if (player2NameEditText.text.toString() == "") {
             Toast.makeText(this, "Please enter second player's name!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (model.player1Flag == model.player2Flag) {
+            Toast.makeText(this, "Be creative! Don't choose the same flag :P", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -128,6 +138,26 @@ class TeamSelectActivity : AppCompatActivity() {
             player2NameEditText.setText("")
             player2NameEditText.setTextColor(getColor(R.color.colorAccent))
             player2NameEditText.isEnabled = true
+        }
+    }
+
+    fun onPlayer1NameTextEditClicked(hasFocus: Boolean) {
+        if (hasFocus && player1NameEditText.text.toString() == "PLAYER1") {
+            player1NameEditText.setText("")
+        }
+
+        if (!hasFocus && player1NameEditText.text.toString() == "") {
+            player1NameEditText.setText("PLAYER1")
+        }
+    }
+
+    fun onPlayer2NameTextEditClicked(hasFocus: Boolean) {
+        if (hasFocus && player2NameEditText.text.toString() == "PLAYER2") {
+            player2NameEditText.setText("")
+        }
+
+        if (!hasFocus && player2NameEditText.text.toString() == "") {
+            player2NameEditText.setText("PLAYER2")
         }
     }
 }
