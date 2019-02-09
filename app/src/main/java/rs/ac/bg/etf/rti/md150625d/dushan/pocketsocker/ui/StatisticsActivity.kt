@@ -53,7 +53,7 @@ class StatisticsActivity : AppCompatActivity() {
             results.add(match.player1 + " - " + match.player2)
         }
 
-        var adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results)
+        var adapter = ArrayAdapter<String>(this, R.layout.list_item, results)
 
         statisticsListView.onItemClickListener = AdapterView.OnItemClickListener {
             parent, view, position, id -> goToMatchStatistics(position)

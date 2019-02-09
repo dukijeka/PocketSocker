@@ -65,7 +65,7 @@ class ResultsActivity : AppCompatActivity() {
                 + " : " + player2?.winsCnt + " " + player2Name)
 
         listView.adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results)
+            ArrayAdapter<String>(this, R.layout.list_item, results)
     }
 
     override fun onBackPressed() {
