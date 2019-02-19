@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.util.TypedValue
 import android.view.View
@@ -120,10 +121,10 @@ class TeamSelectActivity : AppCompatActivity() {
     fun onPlayer1ComputerCheckboxClicked(v: View) {
         if (player1ComputerCheckBox.isChecked) {
             player1NameEditText.setText("SKYNET")
-            player1NameEditText.setTextColor(getColor(android.R.color.holo_red_dark))
+            player1NameEditText.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
             player1NameEditText.isEnabled = false
         } else {
-            player1NameEditText.setTextColor(getColor(R.color.colorAccent))
+            player1NameEditText.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
             player1NameEditText.setText("")
             player1NameEditText.isEnabled = true
         }
@@ -132,11 +133,11 @@ class TeamSelectActivity : AppCompatActivity() {
     fun onPlayer2ComputerCheckboxClicked(v: View) {
         if (player2ComputerCheckBox.isChecked) {
             player2NameEditText.setText("HAL 9000")
-            player2NameEditText.setTextColor(getColor(android.R.color.holo_red_dark))
+            player2NameEditText.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
             player2NameEditText.isEnabled = false
         } else {
             player2NameEditText.setText("")
-            player2NameEditText.setTextColor(getColor(R.color.colorAccent))
+            player2NameEditText.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
             player2NameEditText.isEnabled = true
         }
     }

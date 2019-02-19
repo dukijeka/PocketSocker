@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.v4.content.ContextCompat
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.R
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onWindowFocusChanged(hasFocus)
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
         if (!sharedPreferences.contains(getString(R.string.preference_file_key))) {
-            loadGameButton.setTextColor(getColor(R.color.material_grey_100))
+            loadGameButton.setTextColor(ContextCompat.getColor(this, R.color.material_grey_100))
         } else {
             loadGameButton.setTextColor(startGameButton.textColors)
         }

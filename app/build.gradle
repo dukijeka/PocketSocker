@@ -9,8 +9,9 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker"
-        minSdkVersion 23
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"

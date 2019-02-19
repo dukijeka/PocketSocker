@@ -19,8 +19,7 @@
             android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/player2NameEditText"/>
     <ImageView
             android:layout_width="133dp"
-            android:layout_height="115dp"
-            android:src="@drawable/starting_flag"
+            android:layout_height="115dp" app:srcCompat="@drawable/starting_flag"
             android:id="@+id/secondTeamFlag"
             app:layout_constraintStart_toEndOf="@+id/secondTeamLeftArrow"
             app:layout_constraintHorizontal_bias="0.5"
@@ -44,6 +43,7 @@
             android:ems="10"
             android:id="@+id/player2NameEditText"
             android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/secondTeamFlag" android:hint="Name"
@@ -79,8 +79,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
     <ImageView
             android:layout_width="133dp"
-            android:layout_height="115dp"
-            android:src="@drawable/starting_flag"
+            android:layout_height="115dp" app:srcCompat="@drawable/starting_flag"
             android:id="@+id/firstTeamFlag"
             app:layout_constraintStart_toEndOf="@+id/firstTeamLeftArrow"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/firstTeamRightArrow"
@@ -100,6 +99,7 @@
             android:ems="10"
             android:id="@+id/player1NameEditText"
             android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="40dp"
             app:layout_constraintTop_toBottomOf="@+id/firstTeamLeftArrow"
