@@ -225,7 +225,9 @@ class GameController(private val model: GameViewModel,
     }
 
     fun refreshGameView() {
-        gameImageView.invalidate()
+        activity.runOnUiThread {
+            gameImageView.invalidate()
+        }
     }
 
     fun reportGoal() {

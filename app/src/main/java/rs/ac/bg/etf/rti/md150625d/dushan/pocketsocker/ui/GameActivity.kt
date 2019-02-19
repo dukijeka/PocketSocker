@@ -22,6 +22,7 @@ import android.content.SharedPreferences
 import android.os.PersistableBundle
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
+import android.view.View
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.database.entity.Match
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.database.entity.Player
 import rs.ac.bg.etf.rti.md150625d.dushan.pocketsocker.repositories.GameRepository
@@ -149,8 +150,10 @@ class GameActivity : AppCompatActivity() {
         super.onWindowFocusChanged(hasFocus)
         // enter full screen gaming mode(sticky immersive)
         if (hasFocus) {
-            window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_IMMERSIVE_STICKY or SYSTEM_UI_FLAG_FULLSCREEN or
-                    SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+                    SYSTEM_UI_FLAG_FULLSCREEN or
+                    SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
     }
 
